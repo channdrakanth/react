@@ -9,6 +9,7 @@ class Table extends Component{
                 <TableBody 
                 charactersData =  { this.props.charactersData }
                 removeCharacter = { this.props.removeCharacter}
+                editCharacter = { this.props.editCharacter }
                  />
             </table>
         );
@@ -24,8 +25,8 @@ const TableBody = (props) => {
                  <td>{row.content}</td>
                  <td>{ new Date(row.createdAt).toLocaleString()}</td>
                  <td>{new Date(row.updatedAt).toLocaleString()}</td>
-                 <td><button className="btn btn-primary" onClick={() => props.removeCharacter(index)}>Edit</button></td>
-                 <td><button className="btn btn-secondary" onClick={() => props.removeCharacter(index)}>Delete</button></td>
+                 <td><button className="btn btn-primary" onClick={() => props.editCharacter(row)}>Edit</button></td>
+                 <td><button className="btn btn-secondary" onClick={() => props.removeCharacter(row.id)}>Delete</button></td>
              </tr>
          );
      });
