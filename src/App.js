@@ -2,6 +2,9 @@
 import React, {Component} from 'react';
 import Table from './Table'
 import Form from './Form'
+
+const endPointUrl = "http://localhost:8051" ;
+
 class MyApp extends Component{
 
     state = {
@@ -12,7 +15,7 @@ class MyApp extends Component{
 
 
     componentDidMount() {
-        const url = "http://localhost:8051/notes/getAll";
+        const url = endPointUrl + "/notes/getAll";
         fetch(url)
             .then(result => result.json())
             .then(result => {
@@ -24,18 +27,22 @@ class MyApp extends Component{
 
     removeCharacter = index => {
         const { characters } = this.state;
-        deleteData(`http://localhost:8051/notes/delete`, index)
+        deleteData(endPointUrl + "/notes/delete", index)
         .then(data => this.setState({
-            characters: characters.filter((character, i) => { 
-                return i !== index;
+            characters: characters.filter((character) => { 
+                return character.id !== index;
             })
-        })) // JSON-string from `response.json()` call
+        })) 
         .catch(error => console.error(error));
 
     }
 
+    editCharacter = character => {
+        console.log(character);
+    }
+
     handleSubmit = character => {
-        postData(`http://localhost:8051/notes/addNote`, character)
+        postData(endPointUrl + "/notes/addNote", character)
             .then(data => this.setState({characters: [...this.state.characters, data]})) // JSON-string from `response.json()` call
             .catch(error => console.error(error));
     }
@@ -45,7 +52,8 @@ class MyApp extends Component{
         <div className="container">
             <Table charactersData =
              {this.state.characters}
-             removeCharacter={this.removeCharacter}
+             removeCharacter={ this.removeCharacter }
+             editCharacter = { this.editCharacter }
              />
              <br />
              <Form handleSubmit = {this.handleSubmit}/>
@@ -76,10 +84,8 @@ class MyApp extends Component{
   }
 
 
-  function deleteData(item, url) {
-      debugger;
+  function deleteData(url, item) {
     return fetch(url + '/' + item, {
       method: 'delete'
-    }).then(response =>
-      response.json());
+    });
   }
