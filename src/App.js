@@ -1,8 +1,11 @@
 
 import React, {Component} from 'react';
-import NotesList from './components/NotesList'
-import AddNoteForm from './components/AddNoteForm'
-import {createStore, combineReducers} from 'redux';
+import NotesList from './components/NotesList';
+import AddNoteForm from './components/AddNoteForm';
+import ConfigureStore from './store/ConfigureStore';
+import {addNote, removeNote, editNote} from './actions/Notes';
+import {setFilterText} from './actions/Filter';
+import getFilteredNotes from './selectors/FilterSelector';
 
 const endPointUrl = "http://localhost:8051" ;
 
@@ -91,104 +94,7 @@ class MyApp extends Component{
     });
   }
 
-
-
-  const addNote = ({id, title, content, createdAt, updatedAt} ={}) => ({
-    type: 'ADD_NOTE',
-    note: {
-        id,
-        title,
-        content,
-        createdAt,
-        updatedAt
-    }
-});
-
-const removeNote = (id) =>({
-    type: 'REMOVE_NOTE',
-    id
-});
-
-
-const editNote = (id, updates) =>({
-    type: 'EDIT_NOTE',
-    id,
-    updates
-});
-
-
-const setFilterText = (text = {}) => ({
-    type: 'SET_FILTER_TEXT',
-    text
-});
-    
-
-
-
-  const notesReducerDefaultState = [];
-
-  const notesReducer = (state = notesReducerDefaultState, action) => {
-      switch(action.type){
-          case 'ADD_NOTE':
-            return [...state , action.note];
-          case 'REMOVE_NOTE':
-            return state.filter((note) => note.id !== action.id);
-          case 'EDIT_NOTE':
-            return state.map((note) =>{
-                if(note.id === action.id){
-                    return {
-                        ...note,
-                        ...action.updates
-                    }
-                }
-                else{
-                    return note;
-                }
-            });
-          default: return state;
-      }
-  }
-
-  const filterReducerDefaultState = {
-      text: '',
-      createdAt: undefined,
-      updatedAt: undefined,
-      sortBy: 'date'
-  }
-
-  const filterReducer = (state = filterReducerDefaultState, action) => {
-      switch(action.type){
-          case 'SET_FILTER_TEXT':
-            return {...state , ...action.text};
-          default: return state;
-      }
-  }
-
-  const store = createStore(
-      combineReducers({
-          notes: notesReducer,
-          filters: filterReducer
-      })
-    );
-
-
-const getFilteredNotes = (notes, filters) => {
-    if(Object.keys(filters)[0] === 'text'){
-        return notes.filter((note) => {
-            return note.title.toLowerCase().includes(filters.text) || note.content.toLowerCase().includes(filters.text)
-        });
-    }
-    if(Object.keys(filters)[0] === 'sortBy'){
-        return notes.filter((note) => {
-            return note.title.toLowerCase().includes(filters.text) || note.content.toLowerCase().includes(filters.text)
-        });
-    }
-    else {
-        return notes;
-    }
-    
-}
-
+ const store = ConfigureStore();
 
   store.subscribe(() => {
     const storeData = store.getState();
