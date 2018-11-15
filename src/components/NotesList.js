@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class Table extends Component{
+class NotesList extends Component{
     
     render(){
         return (
@@ -51,4 +51,4 @@ const TableHeader = () => {
     );
 }
 
-export default Table;
+export default NotesList;
