@@ -1,9 +1,7 @@
 
 const filterReducerDefaultState = {
     text: '',
-    createdAt: undefined,
-    updatedAt: undefined,
-    sortBy: 'date'
+    sortBy: ''
 }
 
 export default (state = filterReducerDefaultState, action) => {

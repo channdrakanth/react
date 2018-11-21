@@ -1,11 +1,10 @@
-
 import React, {Component} from 'react';
 import NotesList from './NotesList';
-import AddNoteForm from './AddNoteForm';
+import FilterNotes from './FilterNotes';
 
 const endPointUrl = "http://localhost:8051" ;
 
-class MyApp extends Component{
+class NotesDashBoard extends Component{
 
     state = {
         characters :  [
@@ -25,7 +24,7 @@ class MyApp extends Component{
             });
     }
 
-    removeCharacter = index => {
+    removeNote = index => {
         const { characters } = this.state;
         deleteData(endPointUrl + "/notes/delete", index)
         .then(data => this.setState({
@@ -37,8 +36,8 @@ class MyApp extends Component{
 
     }
 
-    editCharacter = character => {
-        console.log(character);
+    editNote = note => {
+        console.log(note);
     }
 
     handleSubmit = character => {
@@ -49,21 +48,18 @@ class MyApp extends Component{
 
     render () {
       return (
-        <div className="container">
-            <NotesList charactersData =
-             {this.state.characters}
-             removeCharacter={ this.removeCharacter }
-             editCharacter = { this.editCharacter }
-             />
-             <br />
-             <AddNoteForm handleSubmit = {this.handleSubmit}/>
+        <div>
+            <br />
+            <h3> Notes List </h3>
+            <br />
+            <FilterNotes />
+            <br />
+            <NotesList/>
         </div>
       );
     }
 
   }
-
-  export default MyApp;
 
   function postData(url = ``, data = {}) {
     // Default options are marked with *
@@ -89,3 +85,6 @@ class MyApp extends Component{
       method: 'delete'
     });
   }
+
+
+  export default NotesDashBoard;
