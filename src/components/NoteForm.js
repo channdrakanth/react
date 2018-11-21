@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 
-class AddNoteForm extends Component{
-
+class NoteForm extends Component{
+    
     constructor(props){
         super(props);
+        const {title, content} = props.note ? props.note : {};
         this.initialState = {
-            title: '',
-            content: ''
+            title: title ? title : '',
+            content: content ? content: ''
         }
         this.state = this.initialState;
     }
@@ -19,8 +20,7 @@ class AddNoteForm extends Component{
     }
 
     submitForm = () => {
-        this.props.handleSubmit(this.state);
-        this.setState(this.initialState);
+        this.props.onsubmitForm(this.state);
     }
 
     render(){
@@ -41,15 +41,27 @@ class AddNoteForm extends Component{
                     className="form-control col-sm-5"
                     onChange={this.handleChange} />
                     <br/>
-                <input 
+                {!this.props.note && <input 
                     type="button"
-                    value="Submit"
+                    value="Add Note"
                     className="btn btn-primary" 
-                    onClick={this.submitForm}
-                    />
+                    onClick={ () =>{
+                        this.submitForm()
+                        }}
+                    />}
+                 {this.props.note &&  <input 
+                    type="button"
+                    value="Update Note"
+                    className="btn btn-primary" 
+                    onClick={
+                        () =>{
+                        this.submitForm()
+                        }
+                    }
+                    /> }
             </form>
         );  
     }
 }
 
-export default AddNoteForm;
+export default NoteForm;
