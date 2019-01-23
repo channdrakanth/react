@@ -1,4 +1,4 @@
-import {addNote, removeNote, editNote} from '../../actions/Notes';
+import {addNote, removeNote, editNote} from './Notes';
 
 
 test('Should Create addNote note action object', () => {

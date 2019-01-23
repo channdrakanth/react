@@ -5,7 +5,7 @@ export default (notes, filters) => {
         });
     }
     else if(filters.sortBy){
-        return notes;
+
     }
     else {
         return notes;

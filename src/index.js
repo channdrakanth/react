@@ -19,7 +19,8 @@ store.subscribe(() => {
 
 store.dispatch(addNote({id: 1,title: 'Note1', content: 'content of note', createdAt: new Date().toLocaleString(), updatedAt: new Date().toLocaleString()}));
 store.dispatch(addNote({id: 2,title: 'Second one', content: 'content of Second one', createdAt: new Date().toLocaleString(), updatedAt: new Date().toLocaleString()}));
-store.dispatch(removeNote(3));
+store.dispatch(addNote({id: 3,title: 'Third one', content: 'content of Third one', createdAt: new Date().toLocaleString(), updatedAt: new Date().toLocaleString()}));
+store.dispatch(removeNote(4));
 store.dispatch(editNote(1, {title: 'Note1 update', content: 'updated content'}));
 
 //store.dispatch(setFilterText({sortBy:'content'}));
